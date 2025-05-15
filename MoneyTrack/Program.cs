@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using MoneyTrack.Models;
+
 namespace MoneyTrack
 {
     public class Program
@@ -8,6 +11,10 @@ namespace MoneyTrack
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ExpensesDB>(options =>
+               options.UseInMemoryDatabase("ExpensesDB") 
+               );
 
             var app = builder.Build();
 
