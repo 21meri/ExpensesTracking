@@ -3,47 +3,218 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MoneyTrack</title>
+    <title>@ViewData["Title"] · MoneyTrack</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MoneyTrack.styles.css" asp-append-version="true" />
+
+    <style>
+        :root {
+            --accent-from: #4f46e5; /* indigo‑600 */
+            --accent-to: #3730a3; /* indigo‑800 */
+            --secondary: #c026d3; /* fuchsia‑600 */
+
+            --bg: #0f172a; /* slate‑900 */
+            --surface: #1e293b; /* slate‑800 */
+
+            --text-main: #f1f5f9; /* slate‑50 */
+            --text-muted: #94a3b8; /* slate‑400 */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter",system-ui,sans-serif;
+            color: var(--text-main);
+            background: var(--bg);
+            background-image: radial-gradient(circle at 15% 20%,rgba(79,70,229,.25) 0%,transparent 55%), radial-gradient(circle at 80% 85%,rgba(192,38,211,.18) 0%,transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .navbar-dist {
+            backdrop-filter: blur(6px);
+            background: rgba(30,41,59,0.65); 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+            transition: background .3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: -.02em;
+            color: var(--text-main) !important;
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            margin-left: 1rem;
+            color: var(--text-main) !important;
+        }
+
+            .nav-link::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: -4px;
+                height: 2px;
+                width: 0;
+                background: linear-gradient(90deg,var(--accent-from),var(--accent-to));
+                transition: width .25s ease;
+                border-radius: 1px;
+            }
+
+            .nav-link:hover::after, .nav-link.active::after {
+                width: 100%;
+            }
+
+        
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 1rem;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .btn-gradient {
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            border: none;
+            background: linear-gradient(90deg,var(--accent-from),var(--accent-to));
+            color: #fff;
+            transition: transform .2s ease,box-shadow .2s ease;
+        }
+
+            .btn-gradient:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 30px rgba(79,70,229,.35);
+            }
+
+        .btn-outline {
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            border: 2px solid var(--accent-from);
+            color: var(--accent-from);
+            background: transparent;
+            transition: background .2s ease,color .2s ease;
+        }
+
+            .btn-outline:hover {
+                background: var(--accent-from);
+                color: #fff;
+            }
+
+        .card-lite {
+            background: var(--surface);
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            padding: 2rem 2.5rem;
+        }
+
+        table.table {
+            border: none;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+            width: 100%;
+            color: var(--text-main);
+        }
+
+            table.table thead th {
+                border: none;
+                font-size: .875rem;
+                text-transform: uppercase;
+                letter-spacing: .05em;
+                color: var(--text-muted);
+                background: transparent;
+            }
+
+            table.table tbody tr {
+                background: var(--surface);
+                border-radius: 0.75rem;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+                overflow: hidden;
+                transition: transform .15s ease;
+            }
+
+                table.table tbody tr:hover {
+                    transform: translateY(-3px);
+                }
+
+            table.table td {
+                border: none;
+                padding: 1rem 1.25rem;
+            }
+
+                table.table td:first-child {
+                    border-top-left-radius: 0.75rem;
+                    border-bottom-left-radius: 0.75rem;
+                }
+
+                table.table td:last-child {
+                    border-top-right-radius: 0.75rem;
+                    border-bottom-right-radius: 0.75rem;
+                    white-space: nowrap;
+                }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            font-size: .875rem;
+            color: var(--text-muted);
+        }
+    </style>
 </head>
 <body>
+
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MoneyTrack</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-md navbar-dist fixed-top">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">MoneyTrack</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Expenses">Expenses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Expenses">Expenses</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - MoneyTrack - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main>
+        <div class="content-wrapper">
+            @RenderBody()
         </div>
+    </main>
+
+    <footer>
+        &copy; 2025 · MoneyTrack · <a asp-controller="Home" asp-action="Privacy">Privacy</a>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
